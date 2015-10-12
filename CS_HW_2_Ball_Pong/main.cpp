@@ -170,93 +170,92 @@ int main()
         //Simulation
         
         //Ball 1 and Ball 2 collision
-        if (((ball_1_x - ball_2_x) >= (2*ball_radius)) || ((ball_1_y - ball_2_y) >= (2*ball_radius)))
+        if (((ball_1_x - ball_2_x) <= (2*ball_radius)) || ((ball_1_y - ball_2_y) <= (2*ball_radius)))
         {
+            int n = ball_1_x - ball_1_y;
+            ////////somethingsomething
             do
             {
-                ball_1_x_speed = ball_2_x_speed;
-                ball_2_x_speed = ball_1_x_speed;
-            }while (((ball_1_x - ball_2_x) >= (2*ball_radius)));
-            
-            do
-            {
-                ball_1_y_speed = ball_2_y_speed;
-                ball_2_y_speed = ball_2_x_speed;
+                ball_1_x_speed += -ball_2_y_speed;
+                ball_1_y_speed = ball_2_x_speed;
+                ball_2_x_speed += -ball_1_y_speed;
+                ball_2_y_speed = ball_1_x_speed;
             }while (((ball_1_y - ball_2_y) >= (2*ball_radius)));
         }
         
-        //Ball 1 collision Paddle Left or Right
-        else if (((ball_1_x <= (0 + paddle_radius)) && (ball_1_y <= (paddle_left_y-ball_radius))) || ((ball_1_x >= (window_width - paddle_radius)) && (ball_1_y <= (paddle_right_y-ball_radius))))
+        else
         {
-            if ((ball_1_x <= (0 + paddle_radius)) && (ball_1_y <= (paddle_left_y-ball_radius)))
+            //Ball 1 collision Paddle Left or Right
+            if (((ball_1_x <= (0 + paddle_radius)) && (ball_1_y <= (paddle_left_y-ball_radius))) || ((ball_1_x >= (window_width - paddle_radius)) && (ball_1_y <= (paddle_right_y-ball_radius))))
             {
-                ball_1_x_speed = -(ball_1_x_speed + paddle_speed);
-            }
-            else if (((ball_1_x >= (window_width - paddle_radius))) && (ball_1_y <= (paddle_right_y-ball_radius)))
-            {
-                ball_1_y_speed = -(ball_1_y_speed + paddle_speed);
-            }
-        }
-        
-        //Ball 1 collision Left or Right
-        else if (((ball_1_x - ball_radius) <= 0) || ((ball_1_x + ball_radius) >= window_width))
-        {
-            if ((ball_1_x - ball_radius) <= 0)
-            {
-                ball_1_x_speed = -ball_1_x_speed;
-                ++score_right_value;
+                if ((ball_1_x <= (0 + paddle_radius)) && (ball_1_y <= (paddle_left_y-ball_radius)))
+                {
+                    ball_1_x_speed = -(ball_1_x_speed + paddle_speed);
+                }
+                else if (((ball_1_x >= (window_width - paddle_radius))) && (ball_1_y <= (paddle_right_y-ball_radius)))
+                {
+                    ball_1_y_speed = -(ball_1_y_speed + paddle_speed);
+                }
             }
             
-            else if ((ball_1_x + ball_radius) >= window_width)
+            //Ball 1 collision Left or Right
+            else if (((ball_1_x - ball_radius) <= 0) || ((ball_1_x + ball_radius) >= window_width))
             {
-                ball_1_x_speed = -ball_1_y_speed;
-                ++score_left_value;
-            }
-        }
-        
-        //Ball 1 collision Up or Down
-        else if (((ball_1_y - ball_radius) >= window_height) || ((ball_1_y - ball_radius) <= 0))
-        {
-            ball_1_y_speed = -ball_1_y_speed;
-        }
-        
-        //Ball 2 collision Paddle Left or Right
-        else if (((ball_2_x <= (0 + paddle_radius)) && (ball_2_y <= (paddle_left_y-ball_radius))) || ((ball_2_x >= (window_width - paddle_radius)) && (ball_2_y <= (paddle_right_y-ball_radius))))
-        {
-            ball_2_x_speed = -(ball_2_x_speed + paddle_speed);
-            ball_2_y_speed = -(ball_2_y_speed + paddle_speed);
-        }
-        
-        //Ball 2 collision Left or Right
-        else if (((ball_2_x - ball_radius) <= 0) || ((ball_2_x + ball_radius) >= window_width))
-        {
-            if ((ball_2_x - ball_radius) <= 0)
-            {
-                ball_2_x_speed = -ball_2_x_speed;
-                ++score_right_value;
+                if ((ball_1_x - ball_radius) <= 0)
+                {
+                    ball_1_x_speed = -ball_1_x_speed;
+                    ++score_right_value;
+                }
+                
+                else if ((ball_1_x + ball_radius) >= window_width)
+                {
+                    ball_1_x_speed = -ball_1_y_speed;
+                    ++score_left_value;
+                }
             }
             
-            else if ((ball_2_x + ball_radius) >= window_width)
+            //Ball 1 collision Up or Down
+            else if (((ball_1_y - ball_radius) >= window_height) || ((ball_1_y - ball_radius) <= 0))
             {
-                ball_2_x_speed = -ball_2_y_speed;
-                ++score_left_value;
+                ball_1_y_speed = -ball_1_y_speed;
             }
-        }
-        
-        //Ball 2 collision Up or Down
-        else if (((ball_2_y - ball_radius) >= window_height) || ((ball_2_y - ball_radius) <= 0))
-        {
-            ball_2_y_speed = -ball_2_y_speed;
+            
+            //Ball 2 collision Paddle Left or Right
+            else if (((ball_2_x <= (0 + paddle_radius)) && (ball_2_y <= (paddle_left_y-ball_radius))) || ((ball_2_x >= (window_width - paddle_radius)) && (ball_2_y <= (paddle_right_y-ball_radius))))
+            {
+                ball_2_x_speed = -(ball_2_x_speed + paddle_speed);
+                ball_2_y_speed = -(ball_2_y_speed + paddle_speed);
+            }
+            
+            //Ball 2 collision Left or Right
+            else if (((ball_2_x - ball_radius) <= 0) || ((ball_2_x + ball_radius) >= window_width))
+            {
+                if ((ball_2_x - ball_radius) <= 0)
+                {
+                    ball_2_x_speed = -ball_2_x_speed;
+                    ++score_right_value;
+                }
+                
+                else if ((ball_2_x + ball_radius) >= window_width)
+                {
+                    ball_2_x_speed = -ball_2_y_speed;
+                    ++score_left_value;
+                }
+            }
+            
+            //Ball 2 collision Up or Down
+            else if (((ball_2_y - ball_radius) >= window_height) || ((ball_2_y - ball_radius) <= 0))
+            {
+                ball_2_y_speed = -ball_2_y_speed;
+            }
+            
         }
         
         //update position
-        else
-        {
-            ball_1_x += ball_1_x_speed;
-            ball_1_y += ball_1_y_speed;
-            ball_2_x += ball_2_x_speed;
-            ball_2_y += ball_2_y_speed;
-        }
+        ball_1_x += ball_1_x_speed;
+        ball_1_y += ball_1_y_speed;
+        ball_2_x += ball_2_x_speed;
+        ball_2_y += ball_2_y_speed;
         
         //Draw
         window.clear(sf::Color::Black);
